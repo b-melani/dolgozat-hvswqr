@@ -1,19 +1,19 @@
 import React, { useState } from "react";
 import "./style.css";
-import styled from "styled-components"
+import styled from "styled-components";
 
 const Div1 = styled.div`
   display: flex;
-`
-  const ButtonStyled = styled.button `
+`;
+const ButtonStyled = styled.button`
   background-color: darkblue;
   color: white;
-  `
+`;
 
-  const DivStyled = styled.div `
-    display: flex;
-    justify-content: space-around;  
-  `
+const DivStyled = styled.div`
+  display: flex;
+  justify-content: space-around;
+`;
 
 function ListItem({ item }) {
   const { done, name, future } = item;
@@ -33,15 +33,15 @@ function ListItemContainer({ item, setDone }) {
   const { id, done } = item;
   return (
     <Div1>
-    <input
+      <input
         type="checkbox"
         value={item}
         onChange={e => setDone(e.target.value)}
       />
-          <div onClick={() => setDone(id, !done)}>
-      <ListItem item={item} />
-    </div>
-  </Div1>
+      <div onClick={() => setDone(id, !done)}>
+        <ListItem item={item} />
+      </div>
+    </Div1>
   );
 }
 
@@ -65,25 +65,31 @@ function AddItem({ onAddItem }) {
   function add() {
     onAddItem(newItem);
     setNewItem("");
-    
   }
 
   return (
-    <><div class="container">
-<h4>Todo App</h4>
-  <div class="row row-cols-4">
-<br/>
-    <DivStyled>
-      <input
-        type="text"
-        value={newItem}
-        onChange={elem => setNewItem(elem.target.value)}
-      />
-      <ButtonStyled onClick={add}>Hozzáadás</ButtonStyled>
-    </DivStyled>
-  </div>
-</div>
-    
+    <>
+      <div class="container">
+        <h4>Todo App</h4>
+        <div class="row row-cols-4">
+          <br />
+          <DivStyled>
+            <input
+              type="text"
+              value={newItem}
+              onChange={elem => setNewItem(elem.target.value)}
+                  onKeyPress={event => {
+                if (event.key === 'Enter') {
+                  add()
+                }
+              }}
+            />
+
+            <ButtonStyled onClick={add}>Hozzáadás</ButtonStyled>
+          </DivStyled>
+          
+        </div>
+      </div>
     </>
   );
 }
@@ -128,11 +134,10 @@ export default function App() {
   const { list, addItem, setDone, clearDone } = useToDoList();
 
   return (
-    
     <div>
       <AddItem onAddItem={addItem} />
       <List list={list} setDone={setDone} />
-      <br/>
+      <br />
       <ButtonStyled onClick={clearDone}>Törlés</ButtonStyled>
     </div>
   );
